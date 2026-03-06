@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import random
 import time
-from Fondo import Fondo_acciones # Clase creada por nosotros.
+from fondo import Fondo_acciones
 from typing import List
 import pandas as pd
 

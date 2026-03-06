@@ -5,11 +5,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from Accion import Accion
+from accion import Accion
+import os
+from dotenv import load_dotenv
 import random, time, re
 from datetime import datetime
 import pandas as pd
 
+load_dotenv()
 
 '''
 FUNCIONES UTILIZADAS
@@ -123,16 +126,23 @@ try:
 
     # Iniciamos sesión
     click_xpath("/html/body/div[2]/header/div/div/div/div[2]/div/div[3]/div[2]/div/div/a", 1, 2, driver)
+    
+    yahoo_user = os.getenv("YAHOO_USER")
+    yahoo_password = os.getenv("YAHOO_PASSWORD")
+
+    if not yahoo_user or not yahoo_password:
+        raise ValueError("Define YAHOO_USER y YAHOO_PASSWORD como variables de entorno antes de ejecutar el script.")
+
     barra_usuario = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div[1]/div[2]/div[2]/form/div[1]/div[3]/input')))
     barra_usuario.click()
-    barra_usuario.send_keys('grupoprogra@yahoo.com')
+    barra_usuario.send_keys(yahoo_user)
     click_xpath('/html/body/div[1]/div[2]/div[1]/div[2]/div[2]/form/div[2]/input', 1, 2, driver)
+
     barra_contraseña = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div[1]/div[2]/div[2]/form/div[2]/input')))
     barra_contraseña.click()
-    barra_contraseña.send_keys('EtsiInfUpm24')
+    barra_contraseña.send_keys(yahoo_password)
     click_xpath('/html/body/div[1]/div[2]/div[1]/div[2]/div[2]/form/div[3]/div[1]/button', 1, 2, driver)
-
-
+    
     # Poso el ratón sobre "Paneles" para que aparezca el botón "Paneles de acciones".
     elemento_hover = driver.find_element(By.XPATH, "//*[@id='ybar-navigation']/div/ul/li[2]/a")
     action = ActionChains(driver)
